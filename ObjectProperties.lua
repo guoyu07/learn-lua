@@ -23,12 +23,14 @@ local function make_proxy(class,priv,getters,setters,is_expose)
     local newindex = setters and
             function(self,key,value)
                 local func = setters[key]
-                if func then return func(self,value) else rawset(self,key,value) end
+                if func then return func(self,value)
+                else rawset(self,key,value) end
             end
             or fallback
     local proxy_mt = {
        __index=index,
-    __newindex=newindex
+    __newindex=newindex,
+        priv = priv
     }
     local self = setmetatable({},proxy_mt)
     return self
@@ -49,13 +51,67 @@ function Apple:new()
     local self = make_proxy(Apple,priv,nil,Apple_attribute_setters,true)
     return self
 end
-local a = Apple:new()
+--local a = Apple:new()
 --s = a:drop()
 --print(s)
-a.color = 'green'
-s = a:drop()
-print(s)
+--a.color = 'green'
+--s = a:drop()
+--print(s)
 
+local T = {}
+T.__index = T
+local T_setters = {
+   a = function(self,value)
+       local priv = getmetatable(self).priv
+       priv.a = value * 2
+   end
+}
+local T_getters = {
+    b = function(self,value)
+        local priv = getmetatable(self).priv
+        return priv.a + 1
+    end
+}
+function T:hello()
+    return 123
+end
+function T:new()
+    return make_proxy(T,{a=5},T_getters,T_setters,true)
+end
+
+local t = T:new()
+--print(t:hello())
+--t.a = 10
+--print(t.a)
+
+array = {
+   new = function(self,size)
+       local o = {
+           _size = size,
+           _array = {}
+       }
+       for i = 1, o._size do
+           o._array[i] = 0
+       end
+       setmetatable(o,self)
+       return o
+   end,
+    size = function(self)
+        return self._size
+    end,
+    get = function(self,i)
+        return self._array[tonumber[i]]
+    end,
+    set = function(self,i,v)
+        self._array[tonumber[i]] = tonumber(v)
+    end,
+    __index = function(self,key)
+        return getmetatable(self)[key] or self:get(key)
+    end,
+    __newindex = function(self,i,v)
+        self:set(i,v)
+    end
+}
 
 
 
