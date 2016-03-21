@@ -214,11 +214,11 @@ print(i1)
 print(os.clock() - i1)
 print("Time to search  "..n1.." Items: "..(os.clock() - i1))
 
-i0 = os.clock()
-local ts = {}
-table.foreach(t, function(i,v) table.insert(ts, i,i) end)
-table.sort(ts, function(a, b) return b[1] < a[1] end )
-print("Normalsort time: "..(os.clock()-i0))
+--i0 = os.clock()
+--local ts = {}
+--table.foreach(t, function(i,v) table.insert(ts, i,i) end)
+--table.sort(ts, function(a, b) return b[1] < a[1] end )
+--print("Normalsort time: "..(os.clock()-i0))
 
 -- Speed test with a ordered table
 t = table.ordered()
