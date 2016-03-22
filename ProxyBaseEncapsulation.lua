@@ -63,4 +63,5 @@ function(self) print("Hello from " .. tostring(self)) end }
 print("foo = " .. tostring(foo))
 
 local efoo = encapsulator[foo]
+efoo:hello()
 print("efoo = " .. tostring(efoo))

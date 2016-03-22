@@ -82,7 +82,7 @@ function deftype(tname)
   return function(variants)
     check(type(variants)=='table', 2, 'expecting table of variants')
     local basic_types = remove_basic_types(variants)
-    local env = getfenv(2)  -- will store constructors in callers environment
+    local env = _ENV  -- will store constructors in callers environment
     for vname,vtype in pairs(variants) do -- make constructor for each variant
       check(type(vname)=='string', 2, 'expecting string for variant name')
       check(defined[vname]==nil and vname~=tname and vname~='default', 2,
@@ -119,10 +119,11 @@ function cases(tname)
       if not variants[vname] then err('expecting %s, not %s', tname, vname) end
       local vf = funcs[vname] or funcs.default  -- get variant function
       if not vf then err('missing variant function for %s:%s', tname, vname) end
-      return vf(v, unpack(arg)) -- pass variant and additional arguments
+      return vf(v, table.unpack(arg)) -- pass variant and additional arguments
     end
   end
 end
+
 
 --[[
 

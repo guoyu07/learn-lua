@@ -43,7 +43,7 @@ io.write('leaf sum = ', leafsum(tree), '\n\n')
 
 ------------------------------------------------------------------------------
 
-local function indented(level, ...)
+local function indented(level,...)
     io.write(string.rep('a', level), table.unpack(arg))
 end
 
@@ -72,5 +72,6 @@ local function treewalk(t)
     treewalki(t, 0)
 end
 
-treewalk(tree)
+indented(1, "@InteriorNode", 'hi', "\n")
+--treewalk(tree)
 
