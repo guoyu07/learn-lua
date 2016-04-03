@@ -1,0 +1,39 @@
+--
+-- Created by IntelliJ IDEA.
+-- User: zenus
+-- Date: 16-4-3
+-- Time: 下午5:47
+-- To change this template use File | Settings | File Templates.
+--
+
+
+
+function orderStatistics(list,i,j,rank)
+    if i<j then
+        local  l  = i
+        local  r  = j
+        local  pivot = list[l]
+        while l < r do
+            while l < r and list[r] >= pivot do
+                r = r-1
+            end
+            list[l] = list[r]
+            while l < r and list[l] <= pivot do
+                l = l+1
+            end
+            list[r] = list[l]
+        end
+        list[l] = pivot
+        if l > rank then
+            return orderStatistics(list,i,l-1,rank)
+        elseif l < rank then
+            return orderStatistics(list,l+1,j,rank)
+        else
+            i = l
+        end
+    end
+    return list[i]
+end
+unsorted = {1,4,2,9,2,6,3,7,1,9,5 }
+r = orderStatistics(unsorted,1,#unsorted,8)
+print(r)
