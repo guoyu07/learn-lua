@@ -1,0 +1,29 @@
+--
+-- Created by IntelliJ IDEA.
+-- User: zenus
+-- Date: 16-4-3
+-- Time: 下午12:20
+-- To change this template use File | Settings | File Templates.
+--
+unsorted = {1,4,2,9,2,6,3,7,1,9,5}
+function countSort(unsorted,k)
+    local  bail = {}
+    local  bucket = {}
+    for i=1,k do
+        bail[i] = 0
+        end
+    for i=1,#unsorted do
+         bail[unsorted[i]] = bail[unsorted[i]] + 1;
+    end
+    for i=1,k-1 do
+        bail[i+1] = bail[i+1] + bail[i]
+    end
+    for i=#unsorted, 1,-1 do
+        bucket[bail[unsorted[i]]] = unsorted[i]
+        bail[unsorted[i]] = bail[unsorted[i]] - 1
+    end
+    return bucket
+end
+
+sorted = countSort(unsorted,9);
+print(table.concat(sorted,','))
