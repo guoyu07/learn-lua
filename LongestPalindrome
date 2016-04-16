@@ -1,0 +1,33 @@
+--
+-- Created by IntelliJ IDEA.
+-- User: zenus
+-- Date: 16-4-15
+-- Time: 下午11:05
+-- To change this template use File | Settings | File Templates.
+--
+
+s = 'aabsdfsdfsd';
+
+function LongestPalindrome(s)
+    local len = string.len(s)
+    local p = {}
+    local mx = 0
+    local id = 0
+    if len <=1 then return s end
+    for i=1,len do
+
+        p[i] = (mx > i) and math.min(p[2*id-i],mx-i) or 1;
+
+        while(string.byte(s,(i+p[i])) == string.byte(s,(i-p[i]))) do p[i] = p[i]+1 end
+
+        if (i+p[i]) > mx then  mx = i+p[i]  id = i end
+    end
+
+    local maxLen ,index = 0,0
+    for i=1,len do
+        if p[i] > maxLen then  maxLen = p[i]  index = i end
+    end
+    return string.sub(s,index-maxLen+1,index+maxLen-1);
+end
+
+print(LongestPalindrome('122123213'))
